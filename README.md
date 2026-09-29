@@ -1,27 +1,104 @@
 URL Shortener
 
-A Core Java console-based URL Shortener that allows users to register, log in, shorten long URLs, view their shortened URLs, and retrieve the original URL using a generated short code.
+A Core Java console-based URL Shortener designed to demonstrate how a simple URL shortening system works while applying important Java and software design concepts. The application allows users to register and log in, shorten long URLs into compact short URLs, view their previously created URLs, and retrieve the original URL using the generated short code.
 
 Features
-User registration and login
-Email and password authentication
-Shorten any URL
-Automatic short-code generation using Base62 encoding
-View URLs created by the logged-in user
-Retrieve the original URL using a short URL
-File-based data persistence
-Custom exception handling
-Layered architecture using Controller, Service, and Repository layers
+User Registration & Login – Users can create an account and authenticate using their email and password.
+URL Shortening – Users can enter any URL and generate a unique short URL.
+Base62 Encoding – Sequential IDs are converted into compact short codes using Base62 encoding.
+View My URLs – Logged-in users can view the URLs they have previously shortened.
+URL Retrieval – Users can enter a generated short URL to retrieve the corresponding original URL.
+File-Based Persistence – User information and URL mappings are stored in text files, allowing data to remain available after the application is closed.
+Exception Handling – Custom exceptions are used to handle cases such as an invalid or unavailable short URL.
+How It Works
+
+The application starts with a user authentication menu where the user can either register, log in, or exit.
+
+After successful login, the user is presented with a URL menu containing options to shorten a URL, view their URLs, open a short URL, or log out.
+
+When a user chooses to shorten a URL, the application generates a sequential ID for the URL. This ID is then converted into a Base62 short code using digits, lowercase letters, and uppercase letters.
+
+For example:
+
+Long URL
+    ↓
+Generate Sequential ID
+    ↓
+Base62 Encoding
+    ↓
+Generate Short Code
+    ↓
+Store URL Mapping
+    ↓
+Return Short URL
+
+The URL mapping contains the ID, original URL, generated short code, and the ID of the user who created it.
+
+When the user wants to retrieve the original URL, they enter the short URL. The application extracts the short code and searches the stored URL mappings. Once a matching short code is found, the corresponding original URL is returned.
+
 Architecture
-User
- ↓
-Controller
- ↓
-Service
- ↓
-Repository
- ↓
+
+The project follows a layered architecture to separate different responsibilities:
+
+                Main
+                 ↓
+            Controller
+                 ↓
+             Service
+                 ↓
+           Repository
+                 ↓
+           File Storage
+Controller Layer
+
+Handles user interaction through the console and receives input from the user.
+
+Service Layer
+
+Contains the main business logic, such as authentication, URL shortening, Base62 conversion, and retrieving original URLs.
+
+Repository Layer
+
+Responsible for reading and writing user and URL data.
+
 File Storage
+
+The application uses:
+
+data/
+├── users.txt
+└── urls.txt
+
+instead of a database for persistence in this version of the project.
+
+Base62 Encoding
+
+Base62 encoding is used to generate compact short codes from sequential numeric IDs.
+
+The character set contains:
+
+0-9
+a-z
+A-Z
+
+This gives a total of 62 characters.
+
+The algorithm repeatedly divides the ID by 62 and uses the remainders to construct the short code.
+
+For example:
+
+Sequential ID
+      ↓
+Repeated division by 62
+      ↓
+Remainders
+      ↓
+Reverse the result
+      ↓
+Base62 Short Code
+
+This allows numeric IDs to be represented using shorter combinations of characters.
+
 Project Structure
 URLShortener
 ├── data
@@ -55,129 +132,23 @@ URLShortener
         │   └── Base62Util.java
         │
         └── Main.java
-How It Works
-1. User Registration
-
-A new user provides:
-
-Name
-Email
-Password
-
-The user information is stored in users.txt.
-
-2. Login
-
-The application verifies the entered email and password against the stored users.
-
-After successful authentication, the user gets access to the URL menu.
-
-3. Shorten URL
-
-The user enters a long URL:
-
-https://www.example.com/some/very/long/url
-
-The application:
-
-Generates a sequential ID.
-Converts the ID into a Base62 short code.
-Creates a short URL.
-Stores the mapping in urls.txt.
-
-Example:
-
-ID → 125
-Base62 → 21
-
-Short URL:
-http://short.ly/21
-4. Open Short URL
-
-When the user enters:
-
-http://short.ly/21
-
-the application extracts the short code:
-
-21
-
-It searches the stored URL mappings and retrieves the corresponding original URL.
-
-Base62 Encoding
-
-Base62 uses 62 characters:
-
-0-9
-a-z
-A-Z
-
-The ID is repeatedly divided by 62 and the remainders are used to generate the short code.
-
-This provides a compact representation of the numeric ID.
-
-Data Persistence
-
-The project uses simple text files instead of a database.
-
-users.txt
-
-Stores user information:
-
-1|Saketh|saketh@gmail.com|password
-urls.txt
-
-Stores URL mappings:
-
-1|https://example.com|1|1
-
-The fields represent:
-
-ID | Original URL | Short Code | User ID
-Technologies Used
+Technologies & Concepts
 Java 21
 Core Java
 Object-Oriented Programming
-Collections
+Encapsulation
+Abstraction
 Interfaces
+Collections
+File Handling
 Exception Handling
-File I/O
+Custom Exceptions
 Base62 Encoding
 Layered Architecture
-Running the Project
-Requirements
-Java 21 or later
-IntelliJ IDEA or any Java IDE
+Separation of Concerns
+Constructor-based dependency injection
 
 
-Application Flow:
 
-Start
-  ↓
-Register / Login
-  ↓
-Authentication
-  ↓
-URL Menu
-  ├── Shorten URL
-  ├── View My URLs
-  ├── Open Short URL
-  └── Logout
 
-Learning Outcomes
-
-This project provided practical experience with:
-
-Designing a layered Java application
-Applying OOP principles
-Using interfaces and abstraction
-Working with collections
-Reading and writing files
-Implementing custom exceptions
-Understanding URL mapping
-Implementing Base62 encoding
-Separating business logic from data access
-Author
-
-Darimireddy Saketh Ram
-  
+Author - Darimireddy Saketh Ram

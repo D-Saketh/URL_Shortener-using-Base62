@@ -1,154 +1,217 @@
-URL Shortener
+🔗 URL Shortener
 
-A Core Java console-based URL Shortener designed to demonstrate how a simple URL shortening system works while applying important Java and software design concepts. The application allows users to register and log in, shorten long URLs into compact short URLs, view their previously created URLs, and retrieve the original URL using the generated short code.
+    Turn long URLs into short, memorable links — built entirely with Core Java.
 
-Features
-User Registration & Login – Users can create an account and authenticate using their email and password.
-URL Shortening – Users can enter any URL and generate a unique short URL.
-Base62 Encoding – Sequential IDs are converted into compact short codes using Base62 encoding.
-View My URLs – Logged-in users can view the URLs they have previously shortened.
-URL Retrieval – Users can enter a generated short URL to retrieve the corresponding original URL.
-File-Based Persistence – User information and URL mappings are stored in text files, allowing data to remain available after the application is closed.
-Exception Handling – Custom exceptions are used to handle cases such as an invalid or unavailable short URL.
-How It Works
+A console-based URL Shortener that demonstrates how a real-world URL shortening service works, from user authentication and URL generation to persistent storage and URL retrieval.
+✨ What Can It Do?
+Feature	Description
+👤 Register	Create a new user account
+🔐 Login	Authenticate using email & password
+🔗 Shorten URL	Convert any long URL into a short URL
+📋 My URLs	View URLs created by the logged-in user
+🔎 Open Short URL	Enter a short URL and retrieve the original URL
+🚪 Logout	End the current user session
+💾 Persistence	Store users and URL mappings in files
+⚡ How Does It Work?
 
-The application starts with a user authentication menu where the user can either register, log in, or exit.
+The core idea is simple:
 
-After successful login, the user is presented with a URL menu containing options to shorten a URL, view their URLs, open a short URL, or log out.
+        🌐 Long URL
+             │
+             ▼
+      Generate ID
+             │
+             ▼
+      🔢 Base62 Encoding
+             │
+             ▼
+      🔗 Short Code
+             │
+             ▼
+   http://short.ly/21
 
-When a user chooses to shorten a URL, the application generates a sequential ID for the URL. This ID is then converted into a Base62 short code using digits, lowercase letters, and uppercase letters.
+When the user wants the original URL back:
+
+🔗 Short URL
+     │
+     ▼
+Extract Short Code
+     │
+     ▼
+Search URL Mapping
+     │
+     ▼
+🌐 Original URL
+
+🔢 Base62 — The Core Algorithm
+
+Instead of storing a large numeric ID directly, the project converts it into a compact Base62 representation.
+
+Base62 uses:
+
+0123456789
+abcdefghijklmnopqrstuvwxyz
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+
+That's 62 possible characters.
+
+The conversion repeatedly divides the ID by 62 and uses the remainders to construct the short code.
+
+ID
+ ↓
+Divide by 62
+ ↓
+Take remainder
+ ↓
+Divide again
+ ↓
+Repeat
+ ↓
+Reverse remainders
+ ↓
+Short Code
 
 For example:
 
-Long URL
-    ↓
-Generate Sequential ID
-    ↓
-Base62 Encoding
-    ↓
-Generate Short Code
-    ↓
-Store URL Mapping
-    ↓
-Return Short URL
+125  →  21
 
-The URL mapping contains the ID, original URL, generated short code, and the ID of the user who created it.
+So the application can create:
 
-When the user wants to retrieve the original URL, they enter the short URL. The application extracts the short code and searches the stored URL mappings. Once a matching short code is found, the corresponding original URL is returned.
+http://short.ly/21
 
-Architecture
+🏗️ Architecture
 
-The project follows a layered architecture to separate different responsibilities:
+The project follows a clean layered design:
 
-                Main
-                 ↓
-            Controller
-                 ↓
-             Service
-                 ↓
-           Repository
-                 ↓
-           File Storage
-Controller Layer
+                 👤 USER
+                   │
+                   ▼
+            ┌──────────────┐
+            │  Controller  │
+            └──────┬───────┘
+                   │
+                   ▼
+            ┌──────────────┐
+            │   Service    │
+            └──────┬───────┘
+                   │
+                   ▼
+            ┌──────────────┐
+            │  Repository  │
+            └──────┬───────┘
+                   │
+                   ▼
+            ┌──────────────┐
+            │ File Storage │
+            └──────────────┘
 
-Handles user interaction through the console and receives input from the user.
+🎮 Controller
 
-Service Layer
+Handles user input and application menus.
+🧠 Service
 
-Contains the main business logic, such as authentication, URL shortening, Base62 conversion, and retrieving original URLs.
+Contains the actual business logic such as authentication, ID generation, Base62 conversion, and URL retrieval.
+💾 Repository
 
-Repository Layer
+Responsible for storing and retrieving users and URL mappings.
+📁 File Storage
 
-Responsible for reading and writing user and URL data.
-
-File Storage
-
-The application uses:
+Provides persistence through:
 
 data/
 ├── users.txt
 └── urls.txt
 
-instead of a database for persistence in this version of the project.
+🗂️ Project Structure
 
-Base62 Encoding
-
-Base62 encoding is used to generate compact short codes from sequential numeric IDs.
-
-The character set contains:
-
-0-9
-a-z
-A-Z
-
-This gives a total of 62 characters.
-
-The algorithm repeatedly divides the ID by 62 and uses the remainders to construct the short code.
-
-For example:
-
-Sequential ID
-      ↓
-Repeated division by 62
-      ↓
-Remainders
-      ↓
-Reverse the result
-      ↓
-Base62 Short Code
-
-This allows numeric IDs to be represented using shorter combinations of characters.
-
-Project Structure
 URLShortener
-├── data
+│
+├── 📁 data
 │   ├── users.txt
 │   └── urls.txt
 │
-└── src
-    └── urlshortener
-        ├── controller
+└── 📁 src
+    └── 📁 urlshortener
+        │
+        ├── 📁 controller
         │   ├── UserController.java
         │   └── URLController.java
         │
-        ├── service
+        ├── 📁 service
         │   ├── UserService.java
         │   └── URLService.java
         │
-        ├── repository
+        ├── 📁 repository
         │   ├── UserRepository.java
         │   ├── FileUserRepository.java
         │   ├── URLRepository.java
         │   └── FileURLRepository.java
         │
-        ├── model
+        ├── 📁 model
         │   ├── User.java
         │   └── URLMapping.java
         │
-        ├── exception
+        ├── 📁 exception
         │   └── ShortURLNotFoundException.java
         │
-        ├── util
+        ├── 📁 util
         │   └── Base62Util.java
         │
         └── Main.java
-Technologies & Concepts
+
+🔄 Application Flow
+
+                    🚀 START
+                       │
+              ┌────────┴────────┐
+              ▼                 ▼
+          📝 Register         🔐 Login
+              │                 │
+              └────────┬────────┘
+                       ▼
+                Authentication
+                       │
+                       ▼
+                 🔗 URL MENU
+                       │
+        ┌──────────────┼──────────────┐
+        ▼              ▼              ▼
+   Shorten URL     View My URLs   Open Short URL
+        │              │              │
+        ▼              │              ▼
+     Base62             │       Find Short Code
+        │              │              │
+        ▼              │              ▼
+    Save Mapping ◄─────┘        Original URL
+        │
+        ▼
+   Short URL
+
+🧰 Tech Stack
+
+Language
+
 Java 21
-Core Java
-Object-Oriented Programming
-Encapsulation
-Abstraction
-Interfaces
-Collections
-File Handling
-Exception Handling
-Custom Exceptions
+
+Core Concepts
+
+OOP · Interfaces · Collections · Exception Handling · File I/O
+
+Algorithm
+
 Base62 Encoding
-Layered Architecture
-Separation of Concerns
-Constructor-based dependency injection
 
+Architecture
 
+Controller → Service → Repository
 
+Storage
 
-Author - Darimireddy Saketh Ram
+File-based persistence
+🎯 Why This Project?
+
+The project was built to understand how a seemingly simple application like a URL shortener works internally.
+
+It brings together multiple Core Java concepts into one practical application:
+
+    User Authentication → Business Logic → Base62 Algorithm → Data Persistence → URL Retrieval

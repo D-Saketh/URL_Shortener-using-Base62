@@ -223,3 +223,9 @@ The project was built to understand how a seemingly simple application like a UR
 It brings together multiple Core Java concepts into one practical application:
 
     User Authentication → Business Logic → Base62 Algorithm → Data Persistence → URL Retrieval
+
+🚀 Future Enhancements
+🌐 Web-based UI for creating, managing, and accessing shortened URLs
+🏗️ Scalable System Design with Spring Boot, REST APIs, database, caching, load balancing, and distributed architecture
+
+Author: Darimireddy Saketh Ram

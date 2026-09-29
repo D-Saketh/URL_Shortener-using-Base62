@@ -117,12 +117,9 @@ Responsible for storing and retrieving users and URL mappings.
 📁 File Storage
 
 Provides persistence through:
-Project Flow:
+## 📂 Project Structure
 
-data/
-├── users.txt
-└── urls.txt
-
+```text
 URLShortener
 │
 ├── 📁 data
@@ -157,6 +154,7 @@ URLShortener
         │   └── Base62Util.java
         │
         └── Main.java
+```
 
 🔄 Application Flow
 

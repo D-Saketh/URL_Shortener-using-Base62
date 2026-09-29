@@ -117,12 +117,11 @@ Responsible for storing and retrieving users and URL mappings.
 📁 File Storage
 
 Provides persistence through:
+Project Flow:
 
 data/
 ├── users.txt
 └── urls.txt
-
-🗂️ Project Structure
 
 URLShortener
 │

@@ -156,33 +156,44 @@ URLShortener
         └── Main.java
 ```
 
-🔄 Application Flow
+## 🔄 Application Flow
 
-                    🚀 START
-                       │
-              ┌────────┴────────┐
-              ▼                 ▼
-          📝 Register         🔐 Login
-              │                 │
-              └────────┬────────┘
-                       ▼
-                Authentication
-                       │
-                       ▼
-                 🔗 URL MENU
-                       │
-        ┌──────────────┼──────────────┐
-        ▼              ▼              ▼
-   Shorten URL     View My URLs   Open Short URL
-        │              │              │
-        ▼              │              ▼
-     Base62             │       Find Short Code
-        │              │              │
-        ▼              │              ▼
-    Save Mapping ◄─────┘        Original URL
+```text
+🚀 START
+   │
+   ▼
+┌──────────────────────┐
+│  📝 Register / 🔐 Login │
+└──────────┬───────────┘
+           │
+           ▼
+   🔐 Authentication
+           │
+           ▼
+     🔗 URL MENU
+           │
+     ┌─────┼─────┬─────┐
+     ▼     ▼     ▼     ▼
+  Shorten  View  Open  Logout
+    URL    URLs  URL
+     │      │     │
+     ▼      │     ▼
+  Generate │  Extract
+  ID       │  Short Code
+     │      │     │
+     ▼      │     ▼
+  Base62   │  Search Mapping
+     │      │     │
+     ▼      │     ▼
+Short Code │ Original URL
+     │      │
+     └──┬───┘
+        ▼
+   💾 File Storage
         │
         ▼
-   Short URL
+   users.txt / urls.txt
+```
 
 🧰 Tech Stack
 
